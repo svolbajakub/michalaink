@@ -159,6 +159,16 @@ label{display:flex;flex-direction:column;gap:4px;font-family:var(--caps);font-we
 .field:focus{border-bottom-width:2px;padding-bottom:13px}
 .field::placeholder{color:#8A857B}
 textarea.field{resize:vertical}
+.upload{display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+.upload-label{font-family:var(--caps);font-weight:500;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--on-cream-3)}
+.upload-label em{font-style:normal;letter-spacing:.06em;text-transform:none;font-family:var(--body);font-size:.85rem}
+.upload input[type=file]{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.upload-btn{display:inline-block;cursor:pointer;border:1px dashed var(--ink);padding:14px 22px;font-family:var(--caps);font-weight:500;font-size:.85rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);transition:background .2s}
+.upload-btn:hover{background:var(--cream2)}
+.upload:focus-within .upload-btn{outline:2px solid var(--ink);outline-offset:2px}
+.upload-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;width:100%}
+.upload-list li{display:flex;justify-content:space-between;gap:16px;align-items:center;border-bottom:1px solid var(--cream2);padding:6px 0;font-size:.95rem;color:var(--on-cream-2)}
+.upload-list button{background:none;border:0;cursor:pointer;font:500 .8rem var(--caps);letter-spacing:.12em;text-transform:uppercase;color:var(--ink);padding:8px 0}
 .hp{position:absolute;left:-9999px}
 .msg{border:1px solid var(--ink);padding:40px;display:flex;flex-direction:column;gap:14px;background:var(--cream)}
 .msg h3{margin:0;line-height:1}
@@ -295,18 +305,28 @@ footer .links a:hover{color:var(--cream)}
       <p>Stačí pár vět o tom, co by sis představoval/a.<br>Ozvu se ti na mail a domluvíme detaily, cenu i termín.</p>
     </div>
     <div class="contact-form">
-      <form id="form" aria-label="Kontaktní formulář" novalidate>
-        <!-- TODO formulář: sem vlož přístupový klíč z web3forms.com -->
-        <input type="hidden" name="access_key" value="VLOZ_WEB3FORMS_KLIC">
-        <input type="hidden" name="subject" value="Nová poptávka z michala.ink">
-        <input type="hidden" name="from_name" value="michala.ink">
-        <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <!--
+        Formulář → FormSubmit (formsubmit.co) → e-mail, i s přílohami (max. 10 MB na zprávu), zdarma.
+        TODO: místo VLOZ_EMAIL dát e-mail, kam mají chodit zprávy (nebo po aktivaci náhodný kód od FormSubmitu,
+        aby e-mail nebyl vidět v kódu). Při první odeslané zprávě přijde na ten e-mail aktivační odkaz – potvrdit.
+      -->
+      <form id="form" aria-label="Kontaktní formulář" novalidate method="POST" enctype="multipart/form-data" action="https://formsubmit.co/svolba.jakub@gmail.com">
+        <input type="hidden" name="_subject" value="Nová poptávka z webu MICHALA.INK">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_next" id="next" value="">
+        <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
         <div class="pair">
           <label>Jméno<input class="field" type="text" name="name" placeholder="tvoje jméno" required autocomplete="name"></label>
           <label>E-mail<input class="field" type="email" name="email" placeholder="kam ti odpovím" required autocomplete="email"></label>
         </div>
         <label>Místo na těle a velikost<input class="field" type="text" name="placement" placeholder="např. předloktí, cca 10 cm"></label>
         <label>Tvoje představa<textarea class="field" name="message" rows="4" placeholder="motiv, styl, inspirace…" required></textarea></label>
+        <div class="upload">
+          <span class="upload-label">Fotky inspirace <em>(nepovinné · velké fotky se samy zmenší · celkem max. 10 MB)</em></span>
+          <label class="upload-btn" for="files">+ Přidat fotky</label>
+          <input type="file" id="files" accept="image/*,.pdf" multiple>
+          <ul class="upload-list" id="fileList" aria-live="polite"></ul>
+        </div>
         <p class="err" id="err" hidden></p>
         <div><button type="submit" class="btn" id="send">Odeslat</button></div>
       </form>
@@ -347,34 +367,95 @@ document.querySelectorAll('.card').forEach(function (c) {
   c.addEventListener('focus', show);
 });
 
-// Formulář → Web3Forms → e-mail
+// ---------- Formulář → FormSubmit → e-mail (s přílohami) ----------
+// Ochrana: 1) skryté pole _honey, 2) kontrola času (člověk nevyplní formulář za pár sekund),
+//          3) ověření „nejsem robot“ od FormSubmitu (zobrazí se po odeslání)
 var form = document.getElementById('form'), ok = document.getElementById('ok'),
-    err = document.getElementById('err'), btn = document.getElementById('send');
+    err = document.getElementById('err'), btn = document.getElementById('send'),
+    picker = document.getElementById('files'), list = document.getElementById('fileList');
+var MAX_TOTAL = 10 * 1024 * 1024;  // limit FormSubmitu: 10 MB na zprávu
+var loadedAt = Date.now();
+var chosen = [];                    // vybrané soubory
+
+function showOk() { form.hidden = true; ok.hidden = false; }
+function fail(msg) { err.textContent = msg; err.hidden = false; }
+function mb(n) { return (n / 1024 / 1024).toFixed(1).replace('.', ',') + ' MB'; }
+
+// Po návratu z FormSubmitu (…?odeslano=1) ukázat poděkování
+if (/[?&]odeslano=1/.test(location.search)) {
+  showOk();
+  history.replaceState(null, '', location.pathname + '#kontakt');
+  document.getElementById('kontakt').scrollIntoView();
+}
+
+// Seznam vybraných fotek
+function renderList() {
+  list.innerHTML = '';
+  chosen.forEach(function (f, i) {
+    var li = document.createElement('li');
+    var name = document.createElement('span'); name.textContent = f.name + ' · ' + mb(f.size);
+    var rm = document.createElement('button'); rm.type = 'button'; rm.textContent = 'Odebrat';
+    rm.setAttribute('aria-label', 'Odebrat ' + f.name);
+    rm.addEventListener('click', function () { chosen.splice(i, 1); renderList(); });
+    li.appendChild(name); li.appendChild(rm); list.appendChild(li);
+  });
+}
+picker.addEventListener('change', function () {
+  Array.prototype.forEach.call(picker.files, function (f) { chosen.push(f); });
+  picker.value = ''; err.hidden = true; renderList();
+});
+
+// Fotky z mobilu bývají velké → zmenšit na max. 2000 px a uložit jako JPEG (když to prohlížeč umí)
+function shrink(file) {
+  return new Promise(function (resolve) {
+    if (!/^image\/(jpeg|png|webp)$/.test(file.type) || file.size < 600 * 1024) return resolve(file);
+    var img = new Image(), url = URL.createObjectURL(file);
+    img.onload = function () {
+      var s = Math.min(1, 2000 / Math.max(img.width, img.height));
+      var c = document.createElement('canvas');
+      c.width = Math.round(img.width * s); c.height = Math.round(img.height * s);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(url);
+      c.toBlob(function (b) {
+        if (!b || b.size >= file.size) return resolve(file);
+        resolve(new File([b], file.name.replace(/\.\w+$/, '') + '.jpg', { type: 'image/jpeg' }));
+      }, 'image/jpeg', 0.85);
+    };
+    img.onerror = function () { URL.revokeObjectURL(url); resolve(file); };
+    img.src = url;
+  });
+}
+
 form.addEventListener('submit', function (e) {
   e.preventDefault();
   err.hidden = true;
-  if (!form.checkValidity()) {
-    err.textContent = 'Vyplň prosím jméno, platný e-mail a pár slov o své představě.';
-    err.hidden = false; return;
-  }
-  var data = new FormData(form);
-  if (data.get('access_key') === 'VLOZ_WEB3FORMS_KLIC') { // ukázkový režim bez klíče
-    form.hidden = true; ok.hidden = false; return;
-  }
+  if (!form.checkValidity()) return fail('Vyplň prosím jméno, platný e-mail a pár slov o své představě.');
+  // Odesláno podezřele rychle → bot. Tváříme se, že je hotovo, ale nic neposíláme.
+  if (Date.now() - loadedAt < 4000) return showOk();
+  if (form.action.indexOf('VLOZ_EMAIL') !== -1) return showOk(); // ukázkový režim bez e-mailu
+
   btn.disabled = true; btn.textContent = 'Odesílám…';
-  fetch('https://api.web3forms.com/submit', { method: 'POST', body: data, headers: { Accept: 'application/json' } })
-    .then(function (r) { return r.json(); })
-    .then(function (j) {
-      if (!j.success) throw new Error(j.message);
-      form.reset(); form.hidden = true; ok.hidden = false;
-    })
-    .catch(function () {
-      err.textContent = 'Zprávu se nepodařilo odeslat. Zkus to prosím znovu, nebo mi napiš přes Instagram.';
-      err.hidden = false;
-    })
-    .finally(function () { btn.disabled = false; btn.textContent = 'Odeslat'; });
+  Promise.all(chosen.map(shrink)).then(function (files) {
+    var total = files.reduce(function (s, f) { return s + f.size; }, 0);
+    if (total > MAX_TOTAL) {
+      btn.disabled = false; btn.textContent = 'Odeslat';
+      return fail('Fotky mají dohromady ' + mb(total) + ', víc než povolených 10 MB. Odeber prosím některou.');
+    }
+    // Každá fotka do vlastního pole „attachment“, „attachment2“… (tak to FormSubmit přijímá spolehlivě)
+    form.querySelectorAll('.att').forEach(function (n) { n.remove(); });
+    files.forEach(function (f, i) {
+      var inp = document.createElement('input');
+      inp.type = 'file'; inp.name = i ? 'attachment' + (i + 1) : 'attachment'; inp.className = 'att hp';
+      var dt = new DataTransfer(); dt.items.add(f); inp.files = dt.files;
+      form.appendChild(inp);
+    });
+    document.getElementById('next').value = location.origin + location.pathname + '?odeslano=1#kontakt';
+    HTMLFormElement.prototype.submit.call(form);
+  });
 });
-document.getElementById('again').addEventListener('click', function () { ok.hidden = true; form.hidden = false; });
+document.getElementById('again').addEventListener('click', function () {
+  ok.hidden = true; form.hidden = false; loadedAt = Date.now(); chosen = []; renderList();
+});
 </script>
 </body>
 </html>
