@@ -109,6 +109,7 @@ h2 .script{font-size:clamp(3rem,6.5vw,5.6rem);margin-left:.12em;transform:transl
 .more{display:flex;justify-content:flex-end;margin-top:28px}
 .more a{padding:10px 0;text-decoration:none;border-bottom:1px solid currentColor}
 
+.ig iframe{display:block;width:100%;border:0;overflow:hidden;min-height:300px}
 .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
 @media (max-width:1024px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:560px){.grid{grid-template-columns:minmax(0,1fr)}}
@@ -240,7 +241,10 @@ footer .links a:hover{color:var(--cream)}
       <h2><span class="caps">Moje</span><span class="script">práce</span></h2>
     </div>
 
-    <div class="grid">
+    <div class="ig" id="ig">
+      <iframe src="https://cdn.lightwidget.com/widgets/b5ad9e42e2b554c196899a84e694cda5.html" scrolling="no" allowtransparency="true" class="lightwidget-widget" title="Poslední příspěvky z Instagramu @michala.ink"></iframe>
+    </div>
+    <div class="grid" id="igFallback" hidden>
       <a class="tile" href="https://www.instagram.com/michala.ink/" target="_blank" rel="noopener"><img src="img/post01.jpg" alt="Abstraktní linky přes obě ruce a prsty" loading="lazy"><span class="cap label">Zobrazit na Instagramu ↗</span></a>
       <a class="tile" href="https://www.instagram.com/michala.ink/" target="_blank" rel="noopener"><img src="img/post02.jpg" alt="Monstera list v inkoustovém stylu na paži" loading="lazy"><span class="cap label">Zobrazit na Instagramu ↗</span></a>
       <a class="tile" href="https://www.instagram.com/michala.ink/" target="_blank" rel="noopener"><img src="img/post03.jpg" alt="Jemné květy na zápěstí a předloktí" loading="lazy"><span class="cap label">Zobrazit na Instagramu ↗</span></a>
@@ -350,6 +354,7 @@ footer .links a:hover{color:var(--cream)}
   </div>
 </footer>
 
+<script src="https://cdn.lightwidget.com/widgets/lightwidget.js" onerror="document.getElementById('ig').hidden=true;document.getElementById('igFallback').hidden=false"></script>
 <script>
 document.getElementById('y').textContent = new Date().getFullYear();
 
