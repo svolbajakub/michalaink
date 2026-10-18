@@ -118,24 +118,32 @@ h2 .script{font-size:clamp(3rem,6.5vw,5.6rem);margin-left:.12em;transform:transl
 .tile .cap{position:absolute;left:0;right:0;bottom:0;padding:12px 14px;background:var(--ink);color:var(--cream);opacity:0;transition:opacity .2s}
 .tile:hover .cap,.tile:focus-visible .cap{opacity:1}
 
-.studio{display:flex;flex-wrap:wrap;gap:48px}
-.studio-info{flex:1 1 360px;display:flex;flex-direction:column;gap:40px}
-.rows{border-top:1px solid #2A2A2A}
-.row{display:flex;gap:24px;padding:20px 0;border-bottom:1px solid #2A2A2A}
-.row .label{width:120px;flex:none;color:var(--on-ink-3);padding-top:3px}
-.row .val{font-size:1.1rem;line-height:1.55}
-.row strong{font-family:var(--caps);font-weight:500;text-transform:uppercase;letter-spacing:.06em}
-.row .val a{text-decoration:none;border-bottom:1px solid var(--on-ink-3)}
-.row .val a:hover{border-color:var(--cream)}
-.places{flex:1 1 480px;display:flex;flex-direction:column;gap:6px}
-.map{width:100%;height:320px;border:0;display:block;filter:grayscale(1) invert(.92) contrast(.9)}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:6px}
-.card{min-height:190px;padding:26px 28px;display:flex;flex-direction:column;justify-content:space-between;text-decoration:none;background:var(--ink2);border:1px solid #2A2A2A;transition:border-color .2s}
-.card .city{display:block;font-family:var(--caps);font-weight:700;font-size:2.8rem;line-height:.95;text-transform:uppercase}
-.card .addr{display:block;color:var(--on-ink-2);margin:6px 0 14px}
-.card .go{color:var(--cream)}
-.card .num{font-family:var(--script);font-size:1.8rem;color:var(--on-ink-3);line-height:1}
-.card.active,.card:hover{border-color:var(--cream)}
+.place{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:48px;align-items:center;padding:56px 0;border-top:1px solid #2A2A2A}
+.place-flip .place-text{order:2}
+.place-text{display:flex;flex-direction:column;gap:18px;align-items:flex-start}
+.place-num{font-family:var(--script);font-size:2.6rem;color:var(--on-ink-3);line-height:1}
+.place-city{margin:0;font-weight:700;font-size:clamp(2.6rem,5vw,4.4rem);line-height:.92;letter-spacing:.005em}
+.place-desc{margin:0;max-width:460px;font-size:1.08rem;line-height:1.7;color:var(--on-ink-2)}
+.place-addr{margin:0;font-family:var(--caps);font-weight:500;font-size:1.1rem;letter-spacing:.06em;text-transform:uppercase;line-height:1.5}
+.btn-line{display:inline-block;margin-top:6px;padding:14px 26px;border:1px solid var(--cream);text-decoration:none;color:var(--cream);transition:background .2s,color .2s}
+.btn-line:hover{background:var(--cream);color:var(--ink)}
+.place-photos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));gap:6px;aspect-ratio:7/5}
+.place-photos .ph-main{grid-row:span 2}
+.place-flip .place-photos{direction:rtl}
+.place-flip .place-photos>*{direction:ltr}
+.ph{position:relative;overflow:hidden;background-color:var(--ink2);background-image:repeating-linear-gradient(135deg,rgba(243,238,227,.06) 0 1px,transparent 1px 14px);border:1px solid #2A2A2A;display:flex;align-items:center;justify-content:center}
+.ph span{font-family:var(--caps);font-weight:500;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--on-ink-3)}
+.ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.place-info{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px 48px;padding-top:40px;border-top:1px solid #2A2A2A}
+.place-info .label{color:var(--on-ink-3)}
+.place-info p{margin:8px 0 0;font-size:1.08rem;line-height:1.6}
+.place-info a{text-decoration:none;border-bottom:1px solid var(--on-ink-3)}
+.place-info a:hover{border-color:var(--cream)}
+@media (max-width:860px){
+  .place{grid-template-columns:minmax(0,1fr);gap:28px;padding:44px 0}
+  .place-flip .place-text{order:0}
+  .place-flip .place-photos{direction:ltr}
+}
 
 .contact{display:flex;flex-wrap:wrap;gap:64px}
 .contact-text{flex:1 1 340px;display:flex;flex-direction:column;gap:28px}
@@ -180,7 +188,6 @@ footer .links a:hover{color:var(--cream)}
   nav{gap:18px}
   .hero .wrap{padding-top:56px;padding-bottom:64px}
   .sec .wrap{padding-top:72px;padding-bottom:72px}
-  .row{flex-direction:column;gap:6px}
   .hero-photo{flex-basis:100%;padding:8px 24px}
   .polaroid{max-width:280px}
   .splat-g{width:300px!important;top:-120px!important;right:-130px!important}
@@ -248,29 +255,44 @@ footer .links a:hover{color:var(--cream)}
 </section>
 
 <section class="sec dark" id="studio">
-  <div class="wrap studio">
-    <div class="studio-info">
+  <div class="wrap">
+    <div class="sec-head">
       <h2><span class="caps">Kde mě</span><span class="script">najdeš</span></h2>
-      <div class="rows">
-        <div class="row"><span class="label">Studio</span><span class="val"><strong>Kadaň</strong><br>Na Průtahu 2037<br>432 01 Kadaň</span></div>
-        <div class="row"><span class="label">Studio</span><span class="val"><strong>Praha</strong><br>Svornosti 947/22<br>150 00 Praha 5 – Smíchov</span></div>
-        <div class="row"><span class="label">Kdy</span><span class="val">Pouze na objednávku. Ve kterém studiu se uvidíme, domluvíme podle termínu.</span></div>
-        <div class="row"><span class="label">Sítě</span><span class="val"><a href="https://www.instagram.com/michala.ink/" target="_blank" rel="noopener">Instagram</a> &nbsp;/&nbsp; <a href="https://www.facebook.com/michala.ink" target="_blank" rel="noopener">Facebook</a></span></div>
-      </div>
     </div>
-    <div class="places">
-      <iframe class="map" id="map" title="Mapa studia" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-        src="https://www.google.com/maps?q=Na+Pr%C5%AFtahu+2037,+432+01+Kada%C5%88&amp;z=15&amp;output=embed"></iframe>
-      <div class="cards">
-        <a class="card active" data-q="Na Průtahu 2037, 432 01 Kadaň" href="https://www.google.com/maps/search/?api=1&amp;query=Na+Pr%C5%AFtahu+2037+Kada%C5%88" target="_blank" rel="noopener">
-          <span class="num" aria-hidden="true">01</span>
-          <span><span class="city">Kadaň</span><span class="addr">Na Průtahu 2037</span><span class="go label">Navigovat ↗</span></span>
-        </a>
-        <a class="card" data-q="Svornosti 947/22, 150 00 Praha 5" href="https://www.google.com/maps/search/?api=1&amp;query=Svornosti+947%2F22+Praha+5" target="_blank" rel="noopener">
-          <span class="num" aria-hidden="true">02</span>
-          <span><span class="city">Praha</span><span class="addr">Svornosti 947/22</span><span class="go label">Navigovat ↗</span></span>
-        </a>
+
+    <article class="place">
+      <div class="place-text">
+        <span class="place-num">01</span>
+        <h3 class="place-city caps">Studio Kadaň</h3>
+        <p class="place-desc">[Popis studia od Míši — pár vět o prostoru, atmosféře a o tom, co tě tam čeká. Případně kudy se tam dostaneš: studio je v patře, v přízemí je čerpací stanice.]</p>
+        <p class="place-addr">Na Průtahu 2037<br>432 01 Kadaň</p>
+        <a class="btn-line label" href="https://www.google.com/maps/search/?api=1&amp;query=Na+Pr%C5%AFtahu+2037+Kada%C5%88" target="_blank" rel="noopener">Navigovat ↗</a>
       </div>
+      <div class="place-photos">
+        <div class="ph ph-main"><span>Fotka studia 1</span></div>
+        <div class="ph"><span>Fotka 2</span></div>
+        <div class="ph"><span>Fotka 3</span></div>
+      </div>
+    </article>
+
+    <article class="place place-flip">
+      <div class="place-text">
+        <span class="place-num">02</span>
+        <h3 class="place-city caps">Studio Praha</h3>
+        <p class="place-desc">[Popis studia od Míši — pár vět o prostoru, atmosféře a o tom, co tě tam čeká.]</p>
+        <p class="place-addr">Svornosti 947/22<br>150 00 Praha 5 – Smíchov</p>
+        <a class="btn-line label" href="https://www.google.com/maps/search/?api=1&amp;query=Svornosti+947%2F22+Praha+5" target="_blank" rel="noopener">Navigovat ↗</a>
+      </div>
+      <div class="place-photos">
+        <div class="ph ph-main"><span>Fotka studia 1</span></div>
+        <div class="ph"><span>Fotka 2</span></div>
+        <div class="ph"><span>Fotka 3</span></div>
+      </div>
+    </article>
+
+    <div class="place-info">
+      <div><span class="label">Kdy</span><p>Pouze na objednávku. Ve kterém studiu se uvidíme, domluvíme podle termínu.</p></div>
+      <div><span class="label">Sítě</span><p><a href="https://www.instagram.com/michala.ink/" target="_blank" rel="noopener">Instagram</a> &nbsp;/&nbsp; <a href="https://www.facebook.com/michala.ink" target="_blank" rel="noopener">Facebook</a></p></div>
     </div>
   </div>
 </section>
@@ -287,12 +309,13 @@ footer .links a:hover{color:var(--cream)}
         <input type="hidden" name="_subject" value="Nová poptávka z webu MICHALA.INK">
         <input type="hidden" name="_template" value="table">
         <input type="hidden" name="_next" id="next" value="">
+        <input type="hidden" name="_replyto" id="replyto" value="">
         <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
         <div class="pair">
           <label>Jméno<input class="field" type="text" name="Jméno" placeholder="tvoje jméno" required autocomplete="name"></label>
-          <label>E-mail<input class="field" type="email" name="email" placeholder="kam ti odpovím" required autocomplete="email"></label>
+          <label>E-mail<input class="field" type="email" name="E-mail" placeholder="kam ti odpovím" required autocomplete="email"></label>
         </div>
-        <label>Místo na těle a velikost<input class="field" type="text" name="Místo a velikost" placeholder="např. předloktí, cca 10 cm"></label>
+        <label>Místo na těle a velikost<input class="field" type="text" name="Místo a velikost" placeholder="např. předloktí, cca 10 cm"></label>
         <label>Tvoje představa<textarea class="field" name="Představa" rows="4" placeholder="motiv, styl, inspirace…" required></textarea></label>
         <div class="upload">
           <span class="upload-label">Fotky inspirace <em>(nepovinné · velké fotky se samy zmenší · celkem max. 10 MB)</em></span>
@@ -329,18 +352,6 @@ footer .links a:hover{color:var(--cream)}
 
 <script>
 document.getElementById('y').textContent = new Date().getFullYear();
-
-var map = document.getElementById('map');
-document.querySelectorAll('.card').forEach(function (c) {
-  function show() {
-    document.querySelectorAll('.card').forEach(function (x) { x.classList.remove('active'); });
-    c.classList.add('active');
-    var src = 'https://www.google.com/maps?q=' + encodeURIComponent(c.dataset.q) + '&z=15&output=embed';
-    if (map.src !== src) map.src = src;
-  }
-  c.addEventListener('mouseenter', show);
-  c.addEventListener('focus', show);
-});
 
 var form = document.getElementById('form'), ok = document.getElementById('ok'),
     err = document.getElementById('err'), btn = document.getElementById('send'),
@@ -412,10 +423,11 @@ form.addEventListener('submit', function (e) {
     form.querySelectorAll('.att').forEach(function (n) { n.remove(); });
     files.forEach(function (f, i) {
       var inp = document.createElement('input');
-      inp.type = 'file'; inp.name = i ? 'attachment' + (i + 1) : 'attachment'; inp.className = 'att hp';
+      inp.type = 'file'; inp.name = i ? 'Přílohy\u00a0' + (i + 1) : 'Přílohy'; inp.className = 'att hp';
       var dt = new DataTransfer(); dt.items.add(f); inp.files = dt.files;
       form.appendChild(inp);
     });
+    document.getElementById('replyto').value = form.querySelector('input[type=email]').value;
     document.getElementById('next').value = location.origin + location.pathname + '?odeslano=1#kontakt';
     HTMLFormElement.prototype.submit.call(form);
   });
