@@ -7,7 +7,6 @@
 <meta name="description" content="Míša, MICHALA.INK — abstrakt, fineline, blackwork. Tetování, co má duši. Studio Kadaň a Studio Praha.">
 <meta property="og:title" content="MICHALA.INK">
 <meta property="og:description" content="Chci, aby tvoje nová kérka měla duši. Nech se počmárat!">
-<!-- Náhled při sdílení odkazu. Po přechodu na doménu michala.ink přepsat obě adresy na https://michala.ink/… -->
 <meta property="og:url" content="https://svolbajakub.github.io/michalaink/">
 <meta property="og:image" content="https://svolbajakub.github.io/michalaink/img/og.jpg">
 <meta property="og:image:width" content="1200">
@@ -24,7 +23,7 @@
 <link rel="preload" href="fonts/oswald-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/pinyon-script-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <style>
-/* ---------- Písma (uložená přímo na webu, bez Google Fonts) ---------- */
+
 @font-face{font-family:'Oswald';font-weight:500;font-display:swap;src:url(fonts/oswald-latin-500-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 @font-face{font-family:'Oswald';font-weight:500;font-display:swap;src:url(fonts/oswald-latin-ext-500-normal.woff2) format('woff2');unicode-range:U+0100-02AF,U+0304,U+0308,U+0329,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
 @font-face{font-family:'Oswald';font-weight:700;font-display:swap;src:url(fonts/oswald-latin-700-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
@@ -38,16 +37,15 @@
 @font-face{font-family:'Manrope';font-weight:600;font-display:swap;src:url(fonts/manrope-latin-600-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 @font-face{font-family:'Manrope';font-weight:600;font-display:swap;src:url(fonts/manrope-latin-ext-600-normal.woff2) format('woff2');unicode-range:U+0100-02AF,U+0304,U+0308,U+0329,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
 
-/* ---------- Barvy a písma ---------- */
 :root{
-  --ink:#0B0B0B;      /* černá */
-  --ink2:#161616;     /* černá o odstín světlejší (karty) */
-  --cream:#F3EEE3;    /* krémová */
-  --cream2:#E4DDCD;   /* tmavší krémová (linky na krémové) */
-  --on-ink-2:#C9C3B6; /* sekundární text na černé */
-  --on-ink-3:#8E897F; /* popisky na černé */
-  --on-cream-2:#3A3732; /* sekundární text na krémové */
-  --on-cream-3:#6B665D; /* popisky na krémové */
+  --ink:#0B0B0B;
+  --ink2:#161616;
+  --cream:#F3EEE3;
+  --cream2:#E4DDCD;
+  --on-ink-2:#C9C3B6;
+  --on-ink-3:#8E897F;
+  --on-cream-2:#3A3732;
+  --on-cream-3:#6B665D;
   --caps:'Oswald','Arial Narrow',sans-serif;
   --script:'Pinyon Script','Snell Roundhand',cursive;
   --body:'Manrope',system-ui,sans-serif;
@@ -62,16 +60,13 @@ a{color:inherit}
 .script{font-family:var(--script);font-weight:400;text-transform:none}
 .label{font-family:var(--caps);font-weight:500;text-transform:uppercase;letter-spacing:.14em;font-size:.8rem}
 
-/* sekce: černá / krémová */
 .dark{background:var(--ink);color:var(--cream)}
 .light{background:var(--cream);color:var(--ink)}
 section{position:relative;overflow:hidden}
 
-/* cákance inkoustu (dekorace) */
 .splat{position:absolute;pointer-events:none;user-select:none;z-index:0}
 .light .wrap{z-index:1}
 
-/* ---------- Hlavička ---------- */
 header{position:sticky;top:0;z-index:20;background:rgba(11,11,11,.94);backdrop-filter:blur(6px);border-bottom:1px solid #222}
 header .wrap{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;justify-content:space-between;padding-top:12px;padding-bottom:12px}
 .logo{text-decoration:none;display:inline-flex;align-items:flex-end;line-height:1}
@@ -82,7 +77,6 @@ nav a{text-decoration:none;padding:10px 0;color:var(--on-ink-2)}
 nav a:hover{color:var(--cream)}
 nav a.cta{color:var(--cream);border-bottom:1px solid var(--cream)}
 
-/* ---------- Úvod ---------- */
 .hero .wrap{padding-top:88px;padding-bottom:88px;display:flex;flex-direction:column;gap:40px}
 .kicker{color:var(--on-ink-3)}
 .wordmark{margin:0;line-height:.85;display:flex;flex-wrap:nowrap;align-items:flex-end}
@@ -107,7 +101,6 @@ nav a.cta{color:var(--cream);border-bottom:1px solid var(--cream)}
 .polaroid:hover{transform:rotate(0deg)}
 .polaroid figcaption{padding:12px 6px 16px;font-family:var(--script);font-size:1.7rem;color:var(--ink);text-align:right;line-height:1}
 
-/* ---------- Nadpisy sekcí: kapitálky + psací ---------- */
 .sec .wrap{padding-top:96px;padding-bottom:96px}
 .sec-head{display:flex;flex-wrap:wrap;gap:16px 32px;align-items:flex-end;justify-content:space-between;margin-bottom:48px}
 h2{margin:0;line-height:.9;display:flex;flex-wrap:wrap;align-items:flex-end}
@@ -116,7 +109,6 @@ h2 .script{font-size:clamp(3rem,6.5vw,5.6rem);margin-left:.12em;transform:transl
 .more{display:flex;justify-content:flex-end;margin-top:28px}
 .more a{padding:10px 0;text-decoration:none;border-bottom:1px solid currentColor}
 
-/* ---------- Galerie ---------- */
 .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
 @media (max-width:1024px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:560px){.grid{grid-template-columns:minmax(0,1fr)}}
@@ -126,7 +118,6 @@ h2 .script{font-size:clamp(3rem,6.5vw,5.6rem);margin-left:.12em;transform:transl
 .tile .cap{position:absolute;left:0;right:0;bottom:0;padding:12px 14px;background:var(--ink);color:var(--cream);opacity:0;transition:opacity .2s}
 .tile:hover .cap,.tile:focus-visible .cap{opacity:1}
 
-/* ---------- Studio ---------- */
 .studio{display:flex;flex-wrap:wrap;gap:48px}
 .studio-info{flex:1 1 360px;display:flex;flex-direction:column;gap:40px}
 .rows{border-top:1px solid #2A2A2A}
@@ -146,7 +137,6 @@ h2 .script{font-size:clamp(3rem,6.5vw,5.6rem);margin-left:.12em;transform:transl
 .card .num{font-family:var(--script);font-size:1.8rem;color:var(--on-ink-3);line-height:1}
 .card.active,.card:hover{border-color:var(--cream)}
 
-/* ---------- Kontakt ---------- */
 .contact{display:flex;flex-wrap:wrap;gap:64px}
 .contact-text{flex:1 1 340px;display:flex;flex-direction:column;gap:28px}
 .contact-text p{margin:0;max-width:440px;font-size:1.1rem;line-height:1.65;color:var(--on-cream-2)}
@@ -171,15 +161,14 @@ textarea.field{resize:vertical}
 .upload-list button{background:none;border:0;cursor:pointer;font:500 .8rem var(--caps);letter-spacing:.12em;text-transform:uppercase;color:var(--ink);padding:8px 0}
 .hp{position:absolute;left:-9999px}
 .msg{border:1px solid var(--ink);padding:40px;display:flex;flex-direction:column;gap:14px;background:var(--cream)}
-.msg h3{margin:0;line-height:1}
-.msg h3 .caps{font-weight:700;font-size:2.4rem}
-.msg h3 .script{font-size:2.6rem;margin-left:.15em}
+.msg h3{margin:0;line-height:1;font-weight:700;font-size:2.4rem;letter-spacing:.01em}
+.send-row{display:flex;flex-wrap:wrap;gap:16px 24px;align-items:center}
+.send-note{margin:0;flex:1 1 260px;max-width:420px;font-size:.92rem;line-height:1.5;color:var(--on-cream-3)}
 .msg p{margin:0;color:var(--on-cream-2);line-height:1.6}
 .btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--ink);border-radius:0;cursor:pointer;padding:14px 24px;font-family:var(--caps);font-weight:500;font-size:.85rem;letter-spacing:.14em;text-transform:uppercase;align-self:flex-start}
 .err{color:#9B1C1C;font-size:.95rem;margin:0}
 [hidden]{display:none!important}
 
-/* ---------- Patička ---------- */
 footer .wrap{padding-top:40px;padding-bottom:40px;display:flex;flex-wrap:wrap;gap:20px 32px;align-items:center;justify-content:space-between}
 footer .logo .caps{font-size:1.4rem}
 footer .logo .script{font-size:1.6rem}
@@ -214,7 +203,6 @@ footer .links a:hover{color:var(--cream)}
 </header>
 
 <main>
-<!-- ÚVOD (černá) -->
 <section class="hero dark" id="top">
   <div class="wrap">
     <div class="kicker label">Tattoo — Kadaň / Praha</div>
@@ -229,7 +217,6 @@ footer .links a:hover{color:var(--cream)}
         <div><a href="#kontakt" class="btn">Chci termín</a></div>
       </div>
       <div class="hero-photo">
-        <!-- Styl fotky: polaroidka (class="profile polaroid") -->
         <figure class="profile polaroid">
           <img src="img/misa.jpg" alt="Míša, tatérka MICHALA.INK" width="800" height="800">
           <figcaption>@michala.ink</figcaption>
@@ -239,7 +226,6 @@ footer .links a:hover{color:var(--cream)}
   </div>
 </section>
 
-<!-- MOJE PRÁCE (krémová) -->
 <section class="sec light" id="prace">
   <img class="splat splat-g" src="img/splat-1.svg" alt="" aria-hidden="true" style="width:520px;top:-170px;right:-170px">
   <div class="wrap">
@@ -247,12 +233,6 @@ footer .links a:hover{color:var(--cream)}
       <h2><span class="caps">Moje</span><span class="script">práce</span></h2>
     </div>
 
-    <!--
-      TODO Instagram: až bude účet na Behold.so, nahraď celý <div class="grid"> tímto:
-      <behold-widget feed-id="TVOJE_FEED_ID"></behold-widget>
-      <script>(()=>{const d=document,s=d.createElement("script");s.type="module";s.src="https://w.behold.so/widget.js";d.head.append(s);})();</script>
-      Statické fotky níž pak můžou zůstat jako záloha, nebo se smažou.
-    -->
     <div class="grid">
       <a class="tile" href="https://www.instagram.com/michala.ink/" target="_blank" rel="noopener"><img src="img/post01.jpg" alt="Abstraktní linky přes obě ruce a prsty" loading="lazy"><span class="cap label">Zobrazit na Instagramu ↗</span></a>
       <a class="tile" href="https://www.instagram.com/michala.ink/" target="_blank" rel="noopener"><img src="img/post02.jpg" alt="Monstera list v inkoustovém stylu na paži" loading="lazy"><span class="cap label">Zobrazit na Instagramu ↗</span></a>
@@ -267,7 +247,6 @@ footer .links a:hover{color:var(--cream)}
   </div>
 </section>
 
-<!-- STUDIO (černá) -->
 <section class="sec dark" id="studio">
   <div class="wrap studio">
     <div class="studio-info">
@@ -296,7 +275,6 @@ footer .links a:hover{color:var(--cream)}
   </div>
 </section>
 
-<!-- KONTAKT (krémová) -->
 <section class="sec light" id="kontakt">
   <img class="splat splat-c" src="img/splat-3.svg" alt="" aria-hidden="true" style="width:560px;bottom:-200px;left:-200px">
   <div class="wrap contact">
@@ -305,22 +283,17 @@ footer .links a:hover{color:var(--cream)}
       <p>Stačí pár vět o tom, co by sis představoval/a.<br>Ozvu se ti na mail a domluvíme detaily, cenu i termín.</p>
     </div>
     <div class="contact-form">
-      <!--
-        Formulář → FormSubmit (formsubmit.co) → e-mail, i s přílohami (max. 10 MB na zprávu), zdarma.
-        TODO: místo VLOZ_EMAIL dát e-mail, kam mají chodit zprávy (nebo po aktivaci náhodný kód od FormSubmitu,
-        aby e-mail nebyl vidět v kódu). Při první odeslané zprávě přijde na ten e-mail aktivační odkaz – potvrdit.
-      -->
       <form id="form" aria-label="Kontaktní formulář" novalidate method="POST" enctype="multipart/form-data" action="https://formsubmit.co/e55f2122b7ec35a1de936a415e53c581">
         <input type="hidden" name="_subject" value="Nová poptávka z webu MICHALA.INK">
         <input type="hidden" name="_template" value="table">
         <input type="hidden" name="_next" id="next" value="">
         <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
         <div class="pair">
-          <label>Jméno<input class="field" type="text" name="name" placeholder="tvoje jméno" required autocomplete="name"></label>
+          <label>Jméno<input class="field" type="text" name="Jméno" placeholder="tvoje jméno" required autocomplete="name"></label>
           <label>E-mail<input class="field" type="email" name="email" placeholder="kam ti odpovím" required autocomplete="email"></label>
         </div>
-        <label>Místo na těle a velikost<input class="field" type="text" name="placement" placeholder="např. předloktí, cca 10 cm"></label>
-        <label>Tvoje představa<textarea class="field" name="message" rows="4" placeholder="motiv, styl, inspirace…" required></textarea></label>
+        <label>Místo na těle a velikost<input class="field" type="text" name="Místo a velikost" placeholder="např. předloktí, cca 10 cm"></label>
+        <label>Tvoje představa<textarea class="field" name="Představa" rows="4" placeholder="motiv, styl, inspirace…" required></textarea></label>
         <div class="upload">
           <span class="upload-label">Fotky inspirace <em>(nepovinné · velké fotky se samy zmenší · celkem max. 10 MB)</em></span>
           <label class="upload-btn" for="files">+ Přidat fotky</label>
@@ -328,10 +301,13 @@ footer .links a:hover{color:var(--cream)}
           <ul class="upload-list" id="fileList" aria-live="polite"></ul>
         </div>
         <p class="err" id="err" hidden></p>
-        <div><button type="submit" class="btn" id="send">Odeslat</button></div>
+        <div class="send-row">
+          <button type="submit" class="btn" id="send">Odeslat</button>
+          <p class="send-note">Po kliknutí tě na chvilku přesměrujeme na krátké ověření, že nejsi robot. Pak se vrátíš zpátky sem.</p>
+        </div>
       </form>
       <div class="msg" id="ok" hidden>
-        <h3><span class="caps">Díky,</span><span class="script">dorazilo to</span></h3>
+        <h3 class="caps">Zpráva byla odeslána</h3>
         <p>Ozvu se ti na mail, většinou do pár dnů.</p>
         <button type="button" class="btn-ghost" id="again">Poslat další</button>
       </div>
@@ -354,7 +330,6 @@ footer .links a:hover{color:var(--cream)}
 <script>
 document.getElementById('y').textContent = new Date().getFullYear();
 
-// Mapa: najetí / fokus na kartu přepne mapu na dané studio
 var map = document.getElementById('map');
 document.querySelectorAll('.card').forEach(function (c) {
   function show() {
@@ -367,28 +342,23 @@ document.querySelectorAll('.card').forEach(function (c) {
   c.addEventListener('focus', show);
 });
 
-// ---------- Formulář → FormSubmit → e-mail (s přílohami) ----------
-// Ochrana: 1) skryté pole _honey, 2) kontrola času (člověk nevyplní formulář za pár sekund),
-//          3) ověření „nejsem robot“ od FormSubmitu (zobrazí se po odeslání)
 var form = document.getElementById('form'), ok = document.getElementById('ok'),
     err = document.getElementById('err'), btn = document.getElementById('send'),
     picker = document.getElementById('files'), list = document.getElementById('fileList');
-var MAX_TOTAL = 10 * 1024 * 1024;  // limit FormSubmitu: 10 MB na zprávu
+var MAX_TOTAL = 10 * 1024 * 1024;
 var loadedAt = Date.now();
-var chosen = [];                    // vybrané soubory
+var chosen = [];
 
 function showOk() { form.hidden = true; ok.hidden = false; }
 function fail(msg) { err.textContent = msg; err.hidden = false; }
 function mb(n) { return (n / 1024 / 1024).toFixed(1).replace('.', ',') + ' MB'; }
 
-// Po návratu z FormSubmitu (…?odeslano=1) ukázat poděkování
 if (/[?&]odeslano=1/.test(location.search)) {
   showOk();
   history.replaceState(null, '', location.pathname + '#kontakt');
   document.getElementById('kontakt').scrollIntoView();
 }
 
-// Seznam vybraných fotek
 function renderList() {
   list.innerHTML = '';
   chosen.forEach(function (f, i) {
@@ -405,7 +375,6 @@ picker.addEventListener('change', function () {
   picker.value = ''; err.hidden = true; renderList();
 });
 
-// Fotky z mobilu bývají velké → zmenšit na max. 2000 px a uložit jako JPEG (když to prohlížeč umí)
 function shrink(file) {
   return new Promise(function (resolve) {
     if (!/^image\/(jpeg|png|webp)$/.test(file.type) || file.size < 600 * 1024) return resolve(file);
@@ -430,9 +399,8 @@ form.addEventListener('submit', function (e) {
   e.preventDefault();
   err.hidden = true;
   if (!form.checkValidity()) return fail('Vyplň prosím jméno, platný e-mail a pár slov o své představě.');
-  // Odesláno podezřele rychle → bot. Tváříme se, že je hotovo, ale nic neposíláme.
   if (Date.now() - loadedAt < 4000) return showOk();
-  if (form.action.indexOf('VLOZ_EMAIL') !== -1) return showOk(); // ukázkový režim bez e-mailu
+  if (form.action.indexOf('VLOZ_EMAIL') !== -1) return showOk();
 
   btn.disabled = true; btn.textContent = 'Odesílám…';
   Promise.all(chosen.map(shrink)).then(function (files) {
@@ -441,7 +409,6 @@ form.addEventListener('submit', function (e) {
       btn.disabled = false; btn.textContent = 'Odeslat';
       return fail('Fotky mají dohromady ' + mb(total) + ', víc než povolených 10 MB. Odeber prosím některou.');
     }
-    // Každá fotka do vlastního pole „attachment“, „attachment2“… (tak to FormSubmit přijímá spolehlivě)
     form.querySelectorAll('.att').forEach(function (n) { n.remove(); });
     files.forEach(function (f, i) {
       var inp = document.createElement('input');
