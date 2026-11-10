@@ -120,6 +120,7 @@ h2 .script{font-size:clamp(3rem,6.5vw,5.6rem);margin-left:.12em;transform:transl
 
 .place{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:48px;align-items:center;padding:56px 0;border-top:1px solid #2A2A2A}
 .place-flip .place-text{order:2}
+.place-flip{grid-template-columns:minmax(0,7fr) minmax(0,5fr)}
 .place-text{display:flex;flex-direction:column;gap:18px;align-items:flex-start}
 .place-num{font-family:var(--script);font-size:2.6rem;color:var(--on-ink-3);line-height:1}
 .place-city{margin:0;font-weight:700;font-size:clamp(2.6rem,5vw,4.4rem);line-height:.92;letter-spacing:.005em}
@@ -142,6 +143,7 @@ h2 .script{font-size:clamp(3rem,6.5vw,5.6rem);margin-left:.12em;transform:transl
 @media (max-width:860px){
   .place{grid-template-columns:minmax(0,1fr);gap:28px;padding:44px 0}
   .place-flip .place-text{order:0}
+  .place-flip{grid-template-columns:minmax(0,1fr)}
   .place-flip .place-photos{direction:ltr}
 }
 
@@ -269,10 +271,10 @@ footer .links a:hover{color:var(--cream)}
         <h3 class="place-city caps">Studio Kadaň</h3>
         <p class="place-desc">[Popis studia od Míši — pár vět o prostoru, atmosféře a o tom, co tě tam čeká. Případně kudy se tam dostaneš: studio je v patře, v přízemí je čerpací stanice.]</p>
         <p class="place-addr">Na Průtahu 2037<br>432 01 Kadaň</p>
-        <a class="btn-line label" href="https://www.google.com/maps/search/?api=1&amp;query=Na+Pr%C5%AFtahu+2037+Kada%C5%88" target="_blank" rel="noopener">Navigovat ↗</a>
+        <a class="btn-line label" href="https://maps.app.goo.gl/3XeZ9VctY3BDcesh8" target="_blank" rel="noopener">Navigovat ↗</a>
       </div>
       <div class="place-photos">
-        <div class="ph ph-main"><span>Fotka studia 1</span></div>
+        <div class="ph ph-main"><img src="img/kdn01.png" alt="Studio Kadaň"></div>
         <div class="ph"><span>Fotka 2</span></div>
         <div class="ph"><span>Fotka 3</span></div>
       </div>
@@ -282,9 +284,9 @@ footer .links a:hover{color:var(--cream)}
       <div class="place-text">
         <span class="place-num">02</span>
         <h3 class="place-city caps">Studio Praha</h3>
-        <p class="place-desc">[Popis studia od Míši — pár vět o prostoru, atmosféře a o tom, co tě tam čeká.]</p>
-        <p class="place-addr">Svornosti 947/22<br>150 00 Praha 5 – Smíchov</p>
-        <a class="btn-line label" href="https://www.google.com/maps/search/?api=1&amp;query=Svornosti+947%2F22+Praha+5" target="_blank" rel="noopener">Navigovat ↗</a>
+        <p class="place-desc">Další informace budou brzy doplněny</p>
+        <p class="place-addr"><br>Praha 5 - Anděl</p>
+        <a class="btn-line label" href="https://maps.app.goo.gl/LQqLebv27VEizN3o9" target="_blank" rel="noopener">Navigovat ↗</a>
       </div>
       <div class="place-photos">
         <div class="ph ph-main"><span>Fotka studia 1</span></div>
