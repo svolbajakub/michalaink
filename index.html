@@ -313,7 +313,7 @@ footer .links a:hover{color:var(--cream)}
       <form id="form" aria-label="Kontaktní formulář" novalidate method="POST" enctype="multipart/form-data" action="https://formsubmit.co/e55f2122b7ec35a1de936a415e53c581">
         <input type="hidden" name="_subject" value="Nová poptávka z webu MICHALA.INK">
         <input type="hidden" name="_template" value="table">
-        <input type="hidden" name="_next" id="next" value="">
+        <input type="hidden" name="_next" value="https://michalaink.cz/?odeslano=1">
         <input type="hidden" name="_replyto" id="replyto" value="">
         <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
         <div class="pair">
@@ -331,7 +331,7 @@ footer .links a:hover{color:var(--cream)}
         <p class="err" id="err" hidden></p>
         <div class="send-row">
           <button type="submit" class="btn" id="send">Odeslat</button>
-          <p class="send-note">Po kliknutí tě na chvilku přesměrujeme na krátké ověření, že nejsi robot. Pak se vrátíš zpátky sem.</p>
+          <p class="send-note">Po kliknutí se může na chvilku objevit krátké ověření, že nejsi robot. Pak se vrátíš zpátky sem.</p>
         </div>
       </form>
       <div class="msg" id="ok" hidden>
@@ -434,7 +434,6 @@ form.addEventListener('submit', function (e) {
       form.appendChild(inp);
     });
     document.getElementById('replyto').value = form.querySelector('input[type=email]').value;
-    document.getElementById('next').value = location.origin + location.pathname + '?odeslano=1#kontakt';
     HTMLFormElement.prototype.submit.call(form);
   });
 });
