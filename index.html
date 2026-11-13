@@ -310,12 +310,8 @@ footer .links a:hover{color:var(--cream)}
       <p>Stačí pár vět o tom, co by sis představoval/a.<br>Ozvu se ti na mail a domluvíme detaily, cenu i termín.</p>
     </div>
     <div class="contact-form">
-      <form id="form" aria-label="Kontaktní formulář" novalidate method="POST" enctype="multipart/form-data" action="https://formsubmit.co/e55f2122b7ec35a1de936a415e53c581">
-        <input type="hidden" name="_subject" value="Nová poptávka z webu MICHALA.INK">
-        <input type="hidden" name="_template" value="table">
-        <input type="hidden" name="_next" value="https://michalaink.cz/?odeslano=1">
-        <input type="hidden" name="_replyto" id="replyto" value="">
-        <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <form id="form" aria-label="Kontaktní formulář" novalidate>
+        <input type="text" name="web" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
         <div class="pair">
           <label>Jméno<input class="field" type="text" name="Jméno" placeholder="tvoje jméno" required autocomplete="name"></label>
           <label>E-mail<input class="field" type="email" name="E-mail" placeholder="kam ti odpovím" required autocomplete="email"></label>
@@ -331,7 +327,7 @@ footer .links a:hover{color:var(--cream)}
         <p class="err" id="err" hidden></p>
         <div class="send-row">
           <button type="submit" class="btn" id="send">Odeslat</button>
-          <p class="send-note">Po kliknutí se může na chvilku objevit krátké ověření, že nejsi robot. Pak se vrátíš zpátky sem.</p>
+          <p class="send-note">S fotkami může odeslání trvat pár vteřin.</p>
         </div>
       </form>
       <div class="msg" id="ok" hidden>
@@ -370,11 +366,7 @@ function showOk() { form.hidden = true; ok.hidden = false; }
 function fail(msg) { err.textContent = msg; err.hidden = false; }
 function mb(n) { return (n / 1024 / 1024).toFixed(1).replace('.', ',') + ' MB'; }
 
-if (/[?&]odeslano=1/.test(location.search)) {
-  showOk();
-  history.replaceState(null, '', location.pathname + '#kontakt');
-  document.getElementById('kontakt').scrollIntoView();
-}
+var ADRESA_SKRIPTU = 'https://script.google.com/macros/s/AKfycbyBGRwWni3R35upBClDuquBZX0XLHWoBly-TIHbFKMB-kRORhqU0XvNXzPC1ZFiNot6WQ/exec';
 
 function renderList() {
   list.innerHTML = '';
@@ -417,26 +409,48 @@ form.addEventListener('submit', function (e) {
   err.hidden = true;
   if (!form.checkValidity()) return fail('Vyplň prosím jméno, platný e-mail a pár slov o své představě.');
   if (Date.now() - loadedAt < 4000) return showOk();
-  if (form.action.indexOf('VLOZ_EMAIL') !== -1) return showOk();
+  if (ADRESA_SKRIPTU.indexOf('VLOZ_') === 0) return showOk();
 
+  function reset() { btn.disabled = false; btn.textContent = 'Odeslat'; }
   btn.disabled = true; btn.textContent = 'Odesílám…';
   Promise.all(chosen.map(shrink)).then(function (files) {
     var total = files.reduce(function (s, f) { return s + f.size; }, 0);
     if (total > MAX_TOTAL) {
-      btn.disabled = false; btn.textContent = 'Odeslat';
+      reset();
       return fail('Fotky mají dohromady ' + mb(total) + ', víc než povolených 10 MB. Odeber prosím některou.');
     }
-    form.querySelectorAll('.att').forEach(function (n) { n.remove(); });
-    files.forEach(function (f, i) {
-      var inp = document.createElement('input');
-      inp.type = 'file'; inp.name = i ? 'Přílohy\u00a0' + (i + 1) : 'Přílohy'; inp.className = 'att hp';
-      var dt = new DataTransfer(); dt.items.add(f); inp.files = dt.files;
-      form.appendChild(inp);
+    return Promise.all(files.map(toBase64)).then(function (enc) {
+      var pole = form.querySelectorAll('.field'); // jméno, e-mail, místo, představa
+      return fetch(ADRESA_SKRIPTU, {
+        method: 'POST',
+        body: JSON.stringify({
+          honey: form.querySelector('.hp').value,
+          jmeno: pole[0].value,
+          email: pole[1].value,
+          misto: pole[2].value,
+          predstava: pole[3].value,
+          files: enc
+        })
+      }).then(function (r) { return r.json(); }).then(function (res) {
+        reset();
+        if (!res.ok) throw new Error(res.chyba);
+        form.reset(); showOk();
+      });
     });
-    document.getElementById('replyto').value = form.querySelector('input[type=email]').value;
-    HTMLFormElement.prototype.submit.call(form);
+  }).catch(function () {
+    reset();
+    fail('Zprávu se nepodařilo odeslat. Zkus to prosím znovu, případně mi napiš na Instagram.');
   });
 });
+
+function toBase64(f) {
+  return new Promise(function (resolve, reject) {
+    var r = new FileReader();
+    r.onload = function () { resolve({ name: f.name, type: f.type || 'application/octet-stream', data: r.result.split(',')[1] }); };
+    r.onerror = reject;
+    r.readAsDataURL(f);
+  });
+}
 document.getElementById('again').addEventListener('click', function () {
   ok.hidden = true; form.hidden = false; loadedAt = Date.now(); chosen = []; renderList();
 });
